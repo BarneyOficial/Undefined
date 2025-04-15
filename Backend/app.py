@@ -5,21 +5,17 @@ app.secret_key = b'_5#y2L"F4Q8z\n\xec]/'
 
 @app.route('/')
 def index():
+    username = None
     if 'username' in fl.session:
-        return f'Logged in as {fl.session["username"]}'
-    return 'You are not logged in'
+        username = fl.session["username"]
+    return fl.render_template("index.html",person = username)
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if fl.request.method == 'POST':
         fl.session['username'] = fl.request.form['username']
         return fl.redirect(fl.url_for('index'))
-    return '''
-        <form method="post">
-            <p><input type=text name=username>
-            <p><input type=submit value=Login>
-        </form>
-    '''
+    return fl.render_template("login.html")
 
 @app.route('/logout')
 def logout():
