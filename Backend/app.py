@@ -27,7 +27,9 @@ def index():
     username = None
     if 'username' in session:
         username = session["username"]
-    return render_template("index.html",person = username)
+        return render_template("index.html",person = username)
+    else:
+        return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -38,6 +40,5 @@ def login():
 
 @app.route('/logout')
 def logout():
-    # remove the username from the session if it's there
     session.pop('username', None)
     return redirect(url_for('index'))

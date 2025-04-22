@@ -3,5 +3,8 @@
 {% if person %}
   <h1>Hello {{ person }}!</h1>
 {% else %}
-  <h1>Hello, Everyone!</h1>
+  <h1>Something went wrong</h1>
 {% endif %}
+<form action="/logout" method="get">
+  <p><input type=submit value=Logout>
+</form>
