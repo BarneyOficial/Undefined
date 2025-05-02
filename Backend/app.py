@@ -16,9 +16,7 @@ class Base(DeclarativeBase):
 db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
-class User(db.Model):
-    __tablename__ = "user"
-    
+class User(db.Model):  
     id: Mapped[str] = mapped_column(String(32),primary_key=True)
     email: Mapped[str] = mapped_column(String(64),unique=True)
     password: Mapped[str] = mapped_column(String(64))
@@ -54,5 +52,15 @@ def logout():
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
-        session['email'] = request.form['email']
-    return render_template("register.html")
+        user = User()
+        user.id = str(uuid.uuid4())
+        user.email = request.form['email']
+        user.password = hashlib.sha256(request.form['password'].encode("utf-8")).hexdigest()
+        user.name = request.form['name']
+        user.lastname = request.form['lastname']
+        user.phone_number = request.form['phone_number']
+        user.account_type = "master"
+        db.session.add(user)
+        db.session.commit()
+        return render_template("register.html",message = "SUCCESS")
+    return render_template("register.html", message = None)

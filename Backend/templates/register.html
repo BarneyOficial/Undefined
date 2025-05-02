@@ -66,8 +66,23 @@
                 <label for="password">Contraseña</label>
                 <input type="password" id="password" name="password" required>
             </div>
+            <div class="input-group">
+                <label for="name">Nombres</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            <div class="input-group">
+                <label for="lastname">Apellidos</label>
+                <input type="text" id="lastname" name="lastname" required>
+            </div>
+            <div class="input-group">
+                <label for="phone_number">Número Telefónico</label>
+                <input type="text" id="phone_number" name="phone_number" required>
+            </div>
             <button type="submit">Ingresar</button>
         </form>
+        {% if message %}
+            <label>{{ message }}!</label>
+        {% endif %}
     </div>
 </body>
 </html>
