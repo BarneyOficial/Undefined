@@ -17,6 +17,8 @@ db = SQLAlchemy(model_class=Base)
 db.init_app(app)
 
 class User(db.Model):
+    __tablename__ = "user"
+    
     id: Mapped[str] = mapped_column(String(32),primary_key=True)
     email: Mapped[str] = mapped_column(String(64),unique=True)
     password: Mapped[str] = mapped_column(String(64))
@@ -48,3 +50,9 @@ def login():
 def logout():
     session.pop('email', None)
     return redirect(url_for('index'))
+
+@app.route('/register', methods=['GET', 'POST'])
+def register():
+    if request.method == 'POST':
+        session['email'] = request.form['email']
+    return render_template("register.html")
