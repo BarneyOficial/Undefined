@@ -32,17 +32,21 @@ with app.app_context():
 def index():
     email = None
     if 'email' in session:
-        email = session["email"]
-        return render_template("index.html",person = email)
+        return render_template("index.html",person = session["name"])
     else:
         return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        session['email'] = request.form['email']
-        return redirect(url_for('index'))
-    return render_template("login.html")
+        user = db.session.execute(db.select(User).filter_by(email=request.form['email'])).scalar_one()
+        if user:
+            session["email"] = user.email
+            session["name"] = user.name
+            return redirect(url_for('index'))
+        else:
+            return render_template("login.html", message = "Usuario o Contraseña Inválidos")
+    return render_template("login.html", message = None)
 
 @app.route('/logout')
 def logout():

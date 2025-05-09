@@ -68,6 +68,9 @@
             </div>
             <button type="submit">Ingresar</button>
         </form>
+        {% if message %}
+            <label>{{ message }}!</label>
+        {% endif %}
     </div>
 </body>
 </html>
