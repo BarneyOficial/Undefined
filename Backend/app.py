@@ -30,27 +30,36 @@ with app.app_context():
 
 @app.route('/')
 def index():
-    email = None
-    if 'email' in session:
-        return render_template("index.html",person = session["name"])
+    if 'id' in session:
+        try:
+            user = db.session.execute(db.select(User).filter_by(id=session['id'])).scalar_one()
+        except:
+            session.pop('id', None)
+            return redirect(url_for('login'))
+        else:
+            return render_template("index.html",person = user.name)
     else:
         return redirect(url_for('login'))
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     if request.method == 'POST':
-        user = db.session.execute(db.select(User).filter_by(email=request.form['email'])).scalar_one()
-        if user:
-            session["email"] = user.email
-            session["name"] = user.name
-            return redirect(url_for('index'))
-        else:
+        try:
+            user = db.session.execute(db.select(User).filter_by(email=request.form['email'])).scalar_one()
+        except:
             return render_template("login.html", message = "Usuario o Contraseña Inválidos")
+        else:
+            password = hashlib.sha256(request.form['password'].encode("utf-8")).hexdigest()
+            if password == user.password:
+                session["id"] = user.id
+                return redirect(url_for('index'))
+            else:
+                return render_template("login.html", message = "Usuario o Contraseña Inválidos")
     return render_template("login.html", message = None)
 
 @app.route('/logout')
 def logout():
-    session.pop('email', None)
+    session.pop('id', None)
     return redirect(url_for('index'))
 
 @app.route('/register', methods=['GET', 'POST'])
