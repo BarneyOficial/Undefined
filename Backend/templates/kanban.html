@@ -8,24 +8,35 @@
 </head>
 <body>
     <div class="kanban-container">
-        <h2>Kanban Board</h2>   
-        <div class="kanban-board">       
-            <div class="kanban-column">
-                <div class="column-title">Por Hacer</div>
+        <h2>Tareas</h2>
+        <div class="kanban-board" id="kanbanBoard">
+        </div>
+        
+        <div class="modal" id="taskModal">
+            <div class="modal-content">
+                <h2 id="modalTitle">Edit Task</h2>
+                <textarea id="taskContent" placeholder="Enter task description..."></textarea>
+                <div class="modal-buttons">
+                    <button class="delete" id="deleteTaskBtn">Delete</button>
+                    <button class="cancel" id="cancelTaskBtn">Cancel</button>
+                    <button class="save" id="saveTaskBtn">Save</button>
+                </div>
             </div>
-            
-            <div class="kanban-column">
-                <div class="column-title">En Desarrollo</div>
-            </div>
-            
-            <div class="kanban-column">
-                <div class="column-title">Por Revisar</div>
-            </div>
-            
-            <div class="kanban-column">
-                <div class="column-title">Terminado</div>
+        </div>
+        
+        <div class="modal" id="columnModal">
+            <div class="modal-content">
+                <h2 id="columnModalTitle">Edit Column</h2>
+                <input type="text" id="columnName" placeholder="Enter column name..." style="width: 100%; padding: 10px; margin-bottom: 15px;">
+                <div class="modal-buttons">
+                    <button class="delete" id="deleteColumnBtn">Delete</button>
+                    <button class="cancel" id="cancelColumnBtn">Cancel</button>
+                    <button class="save" id="saveColumnBtn">Save</button>
+                </div>
             </div>
         </div>
     </div>
+    
+    <script src="kanban.js"></script>
 </body>
 </html>
